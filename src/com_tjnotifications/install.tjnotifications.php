@@ -265,7 +265,8 @@ class Com_TjnotificationsInstallerScript
 
 						if (!$db->execute())
 						{
-							JError::raiseWarning(1, Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)));
+							$app = Factory::getApplication();
+							$app->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), 'error');
 
 							return false;
 						}
@@ -294,6 +295,7 @@ class Com_TjnotificationsInstallerScript
 	 */
 	public function fixTemplateTable($db, $dbprefix, $config)
 	{
+		$app = Factory::getApplication();
 		$query = "SHOW COLUMNS FROM #__tj_notification_templates WHERE `Field` = 'title'";
 		$db->setQuery($query);
 		$check = $db->loadResult();
@@ -305,7 +307,7 @@ class Com_TjnotificationsInstallerScript
 
 			if (!$db->execute())
 			{
-				JError::raiseError(500, $db->stderr());
+				$app->enqueueMessage($db->stderr(), 'error');
 			}
 		}
 
@@ -320,7 +322,7 @@ class Com_TjnotificationsInstallerScript
 
 			if (!$db->execute())
 			{
-				JError::raiseError(500, $db->stderr());
+				$app->enqueueMessage($db->stderr(), 'error');
 			}
 		}
 
@@ -335,7 +337,7 @@ class Com_TjnotificationsInstallerScript
 
 			if (!$db->execute())
 			{
-				JError::raiseError(500, $db->stderr());
+				$app->enqueueMessage($db->stderr(), 'error');
 			}
 		}
 
@@ -350,7 +352,7 @@ class Com_TjnotificationsInstallerScript
 
 			if (!$db->execute())
 			{
-				JError::raiseError(500, $db->stderr());
+				$app->enqueueMessage($db->stderr(), 'error');
 			}
 		}
 	}
